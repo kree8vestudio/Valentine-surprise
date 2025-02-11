@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine Surprise 💖</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;600&display=swap');
+
+        /* General Styling */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            background: linear-gradient(to right, #ff4b5c, #ff758c);
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+        }
+
+        /* Falling Hearts Animation */
+        .heart {
+            position: absolute;
+            font-size: 30px;
+            color: #ff3366;
+            animation: fall 5s linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Entry Box Styling */
+        .entry-box {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            color: #333;
+            max-width: 350px;
+            position: relative;
+            z-index: 2;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        /* Text and Input Field Fade-in Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Hide Main Content Initially */
+        #main-content, #countdown {
+            display: none;
+        }
+
+        /* Love Note Styling */
+        .love-note {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            width: 60%;
+            color: #333;
+            text-align: center;
+            margin: auto;
+            position: relative;
+            z-index: 2;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            font-size: 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+            margin-top: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .yes {
+            background-color: #ff4b5c;
+            color: white;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .yes:hover {
+            background-color: #ff2e43;
+        }
+
+        /* Countdown Timer */
+        #countdown {
+            font-size: 60px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 8px black;
+            animation: fadeIn 1s ease-in-out;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Footer Branding */
+        footer {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            opacity: 0.6;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Entry Question -->
+    <div class="entry-box" id="questionBox">
+        <h2>To Unlock Your Surprise, Answer This: 😏</h2>
+        <p><strong>When did we first meet?</strong> (Hint: "DD Month" format) 💖</p>
+        <input type="text" id="answer" placeholder="Type your answer here..." style="padding: 10px; border-radius: 5px; opacity: 0; animation: fadeIn 2s ease-in-out 1s forwards;">
+        <button class="btn yes" onclick="checkAnswer()">Submit ✅</button>
+    </div>
+
+    <!-- Countdown Timer -->
+    <div id="countdown"></div>
+
+    <!-- Main Content (Hidden at First) -->
+    <div id="main-content">
+        <h1>Happy Valentine's Day, Love! 🎉💖</h1>
+        <p id="message">"Every moment with you is a beautiful gift, today even more ! ❤️💑</p>
+
+        <!-- Love Note -->
+        <div class="love-note">
+            <p>💌 <strong>Happy Valentine’s Day to the peanut butter to my jelly, and the mayo to my ham.</strong></p>
+            <p>In other words, I love you more than sandwiches. Some would not understand the significance of that statement, but you’ve had to live with me for a long time now, and I know you’ll get it. Love you, babe... ❤️</p>
+        </div>
+    </div>
+
+    <!-- Footer Branding -->
+    <footer>
+        Made with ❤️ by <b>Kree8ve Studio</b>
+    </footer>
+
+    <!-- Working Music File -->
+    <audio id="bgMusic" loop autoplay>
+        <source src="https://www.bensound.com/bensound-music/bensound-love.mp3 " type="audio/mpeg">
+    </audio>
+
+    <script>
+        function checkAnswer() {
+            var correctAnswer = "18 june";  
+            var userAnswer = document.getElementById("answer").value.trim();
+
+            if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+                document.getElementById("questionBox").style.display = "none";
+                startCountdown(); // Start Countdown
+            } else {
+                alert("Oops! Wrong answer. Try again! 😜");
+            }
+        }
+
+        function startCountdown() {
+            let countdownElement = document.getElementById("countdown");
+            countdownElement.style.display = "block";
+            let count = 3;
+
+            let countdownInterval = setInterval(() => {
+                countdownElement.innerHTML = count;
+                count--;
+
+                if (count < 0) {
+                    clearInterval(countdownInterval);
+                    countdownElement.style.display = "none";
+                    document.getElementById("main-content").style.display = "block";
+                    playMusic(); // Play music after unlocking
+                }
+            }, 1000);
+        }
+
+        function playMusic() {
+            let music = document.getElementById("bgMusic");
+            music.play().catch(error => {
+                console.log("Music autoplay blocked: ", error);
+            });
+        }
+
+        // Create falling hearts
+        setInterval(() => {
+            let heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.innerHTML = "❤️";
+            heart.style.left = Math.random() * window.innerWidth + "px";
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }, 500);
+    </script>
+
+</body>
+</html>
